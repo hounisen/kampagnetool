@@ -134,7 +134,7 @@
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-header">
-      <input class="modal-title" id="m-title" type="text" />
+      <input class="modal-title" id="m-title" type="text" placeholder="Kampagnetitel..." style="font-size:17px;font-weight:700;border:none;border-bottom:2px solid #e2e8f0;border-radius:0;padding:4px 0;width:85%;outline:none;" />
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="form-grid">
@@ -357,11 +357,13 @@ function openNew() {
 function closeModal() { document.getElementById("modal").classList.remove("open"); }
 
 function renderSteps() {
-  document.getElementById("m-steps").innerHTML = modalSteps.map((s, i) =>
+  document.getElementById("m-steps").innerHTML = modalSteps.length === 0
+    ? '<div style="font-size:12px;color:#cbd5e1;padding:10px 0">Ingen steps endnu — klik + Tilføj step</div>'
+    : modalSteps.map((s, i) =>
     `<div class="step-item">
-      <input type="checkbox" ${s.done ? "checked" : ""} onchange="modalSteps[${i}].done=this.checked" />
-      <span class="step-label${s.done ? " done" : ""}">${s.label}</span>
-      <button class="step-remove" onclick="modalSteps.splice(${i},1);renderSteps()">✕</button>
+      <input type="checkbox" ${s.done ? "checked" : ""} onchange="modalSteps[${i}].done=this.checked;renderSteps()" />
+      <span class="step-label${s.done ? " done" : ""}" style="flex:1;font-size:13px;color:${s.done?"#94a3b8":"#334155"};text-decoration:${s.done?"line-through":"none"}">${s.label}</span>
+      <button class="step-remove" onclick="modalSteps.splice(${i},1);renderSteps()" style="background:none;border:none;cursor:pointer;color:#cbd5e1;font-size:14px;padding:0 4px">✕</button>
     </div>`
   ).join("");
 }
